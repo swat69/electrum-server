@@ -141,6 +141,10 @@ class TcpServer(threading.Thread):
             session.send_response({"error": "syntax error", "request": raw_command})
         else:
             #print_log("new request", command)
+
+            my_method = command['method']
+            if my_method == 'blockchain.transaction.broadcast':
+                print_log("new request", command, "-----", session, " Adress:--->", session.address )
             self.dispatcher.push_request(session, command)
 
 
