@@ -451,7 +451,7 @@ class BlockchainProcessor(Processor):
         # see if we can get if from cache. if not, add request to queue
         message_id = request.get('id')
         try:
-            result = self.process(request, session, cache_only=True)
+            result = self.process(request, my_session=session, cache_only=True)
         except BaseException as e:
             self.push_response(session, {'id': message_id, 'error': str(e)})
             return 
@@ -503,13 +503,15 @@ class BlockchainProcessor(Processor):
                     del self.watched_addresses[addr]
 
 
-    def process(self, request, session, cache_only=False):
+    def process(self, request, cache_only=False, *args, **kwargs):
         
         message_id = request['id']
         method = request['method']
         params = request.get('params', ())
         result = None
         error = None
+
+	session = kwargs.get('my_session', None)
 
         if method == 'blockchain.numblocks.subscribe':
             result = self.storage.height
