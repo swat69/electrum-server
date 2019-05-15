@@ -144,7 +144,7 @@ class TcpServer(threading.Thread):
 
             my_method = command['method']
             if my_method == 'blockchain.transaction.broadcast':
-                print_log("new request", command, "-----", session, " Adress:--->", session.address )
+                print_log("new request", command, "-----", session, " Address:--->", session.address )
             self.dispatcher.push_request(session, command)
 
 
